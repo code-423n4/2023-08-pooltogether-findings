@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "T1MOH",
+  "risk": "2",
+  "title": "Remote owner can't execute payable actions",
+  "issueId": 5,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/5"
+}
