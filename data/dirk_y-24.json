@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "dirk_y",
+  "risk": "2",
+  "title": "The ContinuousGDA implementation is incorrect leading to liquidity auctions running at the wrong price",
+  "issueId": 24,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/24"
+}
