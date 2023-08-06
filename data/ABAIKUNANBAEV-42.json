@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "rngComplete() may DoS if the rewards length is too big",
+  "issueId": 42,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/42"
+}
