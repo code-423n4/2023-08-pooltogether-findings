@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "cartlex_",
+  "risk": "2",
+  "title": "# Missing deadline checks allow pending transactions to be maliciously executed",
+  "issueId": 32,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/32"
+}
