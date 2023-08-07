@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "kaveyjoe",
+  "risk": "2",
+  "title": "The purchaseAmount function in the ContinuousGDA library has a floating point error that causes it to return incorrect results.",
+  "issueId": 56,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/56"
+}
