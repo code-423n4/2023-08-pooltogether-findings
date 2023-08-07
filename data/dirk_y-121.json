@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "dirk_y",
+  "risk": "3",
+  "title": "RngRelayAuction can be bricked or used to specify arbitrary winning random numbers",
+  "issueId": 121,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/121"
+}
