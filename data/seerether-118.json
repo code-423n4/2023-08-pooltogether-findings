@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "_computeRewardFraction logic looks susceptible to manipulation around the edges. ",
+  "issueId": 118,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/118"
+}
