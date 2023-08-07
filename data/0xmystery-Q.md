@@ -87,8 +87,8 @@ https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609d
       @ audit `Not` --> `Note`
   /// @dev `Not` that the reward fractions compound
 ```
-## Reverse order of `if else` logic
-The order of the `if else` logic seems to have been reversed. Depending on the values of `_emissionRate.unwrap()` and `_emissionRate` involved, this could be crucial enough to make the logic malfunction.
+## Possible reverse order of `if else` logic
+The order of the `if else` logic seems to have been reversed. Depending on the values of `_emissionRate.unwrap()` and `_emissionRate` involved, this could be crucial enough to make the function truncate to zero when `_emissionRate` was more than one (1e18) and used as the divisor. On the other hand, the function could also overflow when `_emissionRate` was less than one and used as the divisor. If that's the case, I suggest removing the `if` clause and keep only the `else` clause that will cater to both circumstances.
 
 https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c2becb98d55c1886cadbaa8897/src/libraries/ContinuousGDA.sol#L38-L42
 
