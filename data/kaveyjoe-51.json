@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "kaveyjoe",
+  "risk": "2",
+  "title": "Reentrancy vulnerability in swapExactAmountOut function",
+  "issueId": 51,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/51"
+}
