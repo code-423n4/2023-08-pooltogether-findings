@@ -1,0 +1,1 @@
+1) LiquidationPairFactory instance does not prevent re-deploying the same Liquidation Pair. CreatePair can be called for same pair any number of times. This will result in duplicate entries in all pairs array.
