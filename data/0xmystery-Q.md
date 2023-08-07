@@ -1,3 +1,45 @@
+## Zero _emissionRate checks
+`_emissionRate` is zero if the minimum fund is not met as shown in the code logic below. 
+
+https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c2becb98d55c1886cadbaa8897/src/LiquidationPair.sol#L274-L283
+
+```solidity
+  function _computeEmissionRate() internal returns (SD59x18) {
+    uint256 amount = source.liquidatableBalanceOf(tokenOut);
+    // console2.log("_computeEmissionRate amount", amount);
+    if (amount < minimumAuctionAmount) {
+      // do not release funds if the minimum is not met
+      amount = 0;
+      // console2.log("AMOUNT IS ZERO");
+    }
+    return convert(int256(amount)).div(convert(int32(int(periodLength))));
+  }
+```
+As such, consider introducing checks on functions calls dependent on it when `_emissionRate == 0`. For example, it will be good if a check is implemented in function `swapExactAmountOut` to prevent division by zero in the function logic. 
+
+https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c2becb98d55c1886cadbaa8897/src/LiquidationPair.sol#L211-L226
+
+```diff
+  function swapExactAmountOut(
+    address _account,
+    uint256 _amountOut,
+    uint256 _amountInMax
+  ) external returns (uint256) {
+    _checkUpdateAuction();
+    uint swapAmountIn = _computeExactAmountIn(_amountOut);
+    if (swapAmountIn > _amountInMax) {
+      revert SwapExceedsMax(_amountInMax, swapAmountIn);
+    }
++    if (_emissionRate == 0) {
++      revert EmissionIsZero(_emissionRate);
++    }
+    _amountInForPeriod += uint96(swapAmountIn);
+    _amountOutForPeriod += uint96(_amountOut);
+    _lastAuctionTime += uint48(uint256(convert(convert(int256(_amountOut)).div(_emissionRate))));
+    source.liquidate(_account, tokenIn, swapAmountIn, tokenOut, _amountOut);
+    return swapAmountIn;
+  }
+``` 
 ## Custom error misleading name
 The name of the following custom error should be renamed as follows to be more in line of its intended purpose:
 
@@ -158,6 +200,52 @@ https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609d
 +      remainingReserve = remainingReserve - calculatedReward;
     }
     return _rewards;
+  }
+```
+## Code efficiency
+In `LiquidationRouter.swapExactAmountOut`, `IERC20(_liquidationPair.tokenIn()).safeTransferFrom()` should be moved to `LiquidationPair.swapExactAmountOut` to avoid calling `computeExactAmountIn()` twice. 
+
+https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c2becb98d55c1886cadbaa8897/src/LiquidationRouter.sol#L63-L80
+
+```diff
+  function swapExactAmountOut(
+    LiquidationPair _liquidationPair,
+    address _receiver,
+    uint256 _amountOut,
+    uint256 _amountInMax
+  ) external onlyTrustedLiquidationPair(_liquidationPair) returns (uint256) {
+-    IERC20(_liquidationPair.tokenIn()).safeTransferFrom(
+-      msg.sender,
+-      _liquidationPair.target(),
+-      _liquidationPair.computeExactAmountIn(_amountOut)
+-    );
+
+    uint256 amountIn = _liquidationPair.swapExactAmountOut(_receiver, _amountOut, _amountInMax);
+
+    emit SwappedExactAmountOut(_liquidationPair, _receiver, _amountOut, _amountInMax, amountIn);
+
+    return amountIn;
+  }
+```
+https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c2becb98d55c1886cadbaa8897/src/LiquidationPair.sol#L211-L226
+
+```diff
+  function swapExactAmountOut(
+    address _account,
+    uint256 _amountOut,
+    uint256 _amountInMax
+  ) external returns (uint256) {
+    _checkUpdateAuction();
+    uint swapAmountIn = _computeExactAmountIn(_amountOut);
+    if (swapAmountIn > _amountInMax) {
+      revert SwapExceedsMax(_amountInMax, swapAmountIn);
+    }
++    tokenIn.safeTransferFrom(tx.origin, target(), swapAmountIn);
+    _amountInForPeriod += uint96(swapAmountIn);
+    _amountOutForPeriod += uint96(_amountOut);
+    _lastAuctionTime += uint48(uint256(convert(convert(int256(_amountOut)).div(_emissionRate))));
+    source.liquidate(_account, tokenIn, swapAmountIn, tokenOut, _amountOut);
+    return swapAmountIn;
   }
 ```
 ## Activate the optimizer
