@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "D_Auditor",
+  "risk": "3",
+  "title": "The absence of proper Access Control in RngRelayAuction::rngComplete() enables anyone to prematurely conclude the Auction Process.",
+  "issueId": 133,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/133"
+}
