@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "0xbepresent",
+  "risk": "3",
+  "title": "The `RngRelayAuction::rngComplete()` function can be called by anyone (malicious actor) causing that the draw will be closed using a malicious random number",
+  "issueId": 120,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/120"
+}
