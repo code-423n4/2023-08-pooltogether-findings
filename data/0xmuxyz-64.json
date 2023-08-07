@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "0xmuxyz",
+  "risk": "3",
+  "title": "Due to lack of the withdrawal function (logic) that allow users to withdraw their funds in the VaultBooster contract, the funds that the users deposited into the VaultBooster contract will be stuck forever",
+  "issueId": 64,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/64"
+}
