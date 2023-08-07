@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "lanrebayode77",
+  "risk": "3",
+  "title": "Anyone can call the LiquidationPair.swapExactAmountOut directly to liquidate Vault shares without sending in POOL/tokenIn tokens.",
+  "issueId": 54,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/54"
+}
