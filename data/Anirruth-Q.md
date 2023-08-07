@@ -1,0 +1,2 @@
+Change from ``_currentTime()`` to ``currentTime`` as it is defined in the function.
+https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609de1870f8713fb79977d51c1/src/RngAuction.sol#L382
