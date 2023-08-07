@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "SanketKogekar",
+  "risk": "2",
+  "title": " Missing `deadline` param in `swapExactAmountOut()` allowing outdated slippage and allow pending transaction to be executed unexpectedly.",
+  "issueId": 126,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/126"
+}
