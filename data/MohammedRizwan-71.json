@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "Attacker can frontrun createPair() to deploy at the same address",
+  "issueId": 71,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/71"
+}
