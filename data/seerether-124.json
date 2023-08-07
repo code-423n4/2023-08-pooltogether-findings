@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "Integer underflow/overflow is possible in some of the timestamp calculations if sequenceOffset or auctionDuration are set maliciously",
+  "issueId": 124,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/124"
+}
