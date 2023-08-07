@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "the _rngCompletedAt timestamp passed to rngComplete() can be manipulated by the caller to increase their reward",
+  "issueId": 129,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/129"
+}
