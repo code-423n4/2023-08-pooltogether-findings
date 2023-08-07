@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "Owner of _liquidationPair can add malicious liquidation source and insufficient input parameter validations",
+  "issueId": 72,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/72"
+}
