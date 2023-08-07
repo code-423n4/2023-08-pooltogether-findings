@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "3agle",
+  "risk": "3",
+  "title": "An attacker can preemptively block the configuration of boost values or the liquidation pair in VaultBooster through front-running",
+  "issueId": 60,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/60"
+}
