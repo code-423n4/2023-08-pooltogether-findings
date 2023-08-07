@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "piyushshukla",
+  "risk": "3",
+  "title": "Missing deadline checks in swapExactAmountOut",
+  "issueId": 59,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/59"
+}
