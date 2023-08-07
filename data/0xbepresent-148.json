@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "0xbepresent",
+  "risk": "3",
+  "title": "Malicious `VaultBooster` owner can steal others user deposited funds",
+  "issueId": 148,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/148"
+}
