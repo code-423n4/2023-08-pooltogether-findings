@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "swapExactAmountOut() does not have deadline which allows pending transactions to be maliciously executed",
+  "issueId": 73,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/73"
+}
