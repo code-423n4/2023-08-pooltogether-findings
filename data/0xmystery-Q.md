@@ -99,3 +99,100 @@ https://github.com/GenerationSoftware/pt-v5-cgda-liquidator/blob/7f95bcacd4a566c
       result = _k.mul(topE.div(_emissionRate.mul(bottomE)));
     }
 ```
+## Avoid caching state variables that will only be used once
+Caching state variables that will only be used once incurs more gas and not recommended.
+
+https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609de1870f8713fb79977d51c1/src/RngAuction.sol#L244-L255
+
+```diff
+  function getLastAuctionResult()
+    external
+    view
+    returns (AuctionResult memory)
+  {
+-    address recipient = _lastAuction.recipient;
+-    UD2x18 rewardFraction = _lastAuction.rewardFraction;
+    return AuctionResult({
+-      recipient: recipient,
++      recipient: _lastAuction.recipient,
+-      rewardFraction: rewardFraction
++      rewardFraction: _lastAuction.rewardFraction
+    });
+  }
+```
+## Consider using descriptive constants when passing zero as a function argument
+Passing zero as a function argument can sometimes result in a security issue (e.g. passing zero as the slippage parameter, fees, token amounts ...). Consider using a constant variable with a descriptive name, so it's clear that the argument is intentionally being used, and for the right reasons.
+
+Here is one specific instance found.
+
+https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609de1870f8713fb79977d51c1/src/RngAuctionRelayerRemoteOwner.sol#L65
+
+```solidity
+            RemoteOwnerCallEncoder.encodeCalldata(address(_remoteRngAuctionRelayListener), 0, listenerCalldata)
+```
+## Enhanced reward distribution to safeguarde against reserve depletion in auction calculations
+The `rewards` function in the provided `RewardLib` library calculates the rewards for a series of auctions based on a given reserve. A potential issue is that midway through the calculations, the `remainingReserve` might become insufficient to provide the required reward for an auction, potentially causing underflows or incorrect behavior. To address this concern, it's recommended to implement a check to ensure that each reward doesn't exceed the `remainingReserve`, and if it does, the function should gracefully exit the loop to avoid unexpected results.
+
+Here's a suggested fix:
+
+https://github.com/GenerationSoftware/pt-v5-draw-auction/blob/f1c6d14a1772d6609de1870f8713fb79977d51c1/src/libraries/RewardLib.sol#L58-L70
+
+```diff
+  function rewards(
+    AuctionResult[] memory _auctionResults,
+    uint256 _reserve
+  ) internal pure returns (uint256[] memory) {
+    uint256 remainingReserve = _reserve;
+    uint256 _auctionResultsLength = _auctionResults.length;
+    uint256[] memory _rewards = new uint256[](_auctionResultsLength);
+    for (uint256 i; i < _auctionResultsLength; i++) {
+-      _rewards[i] = reward(_auctionResults[i], remainingReserve);
+-      remainingReserve = remainingReserve - _rewards[i];
+
++      uint256 calculatedReward = reward(_auctionResults[i], remainingReserve);
++      if (calculatedReward > remainingReserve) {
++            break; // Stop if there's not enough remaining reserve.
++        }
++      _rewards[i] = calculatedReward;
++      remainingReserve = remainingReserve - calculatedReward;
+    }
+    return _rewards;
+  }
+```
+## Activate the optimizer
+Before deploying your contract, activate the optimizer when compiling using “solc --optimize --bin sourceFile.sol”. By default, the optimizer will optimize the contract assuming it is called 200 times across its lifetime. If you want the initial contract deployment to be cheaper and the later function executions to be more expensive, set it to “ --optimize-runs=1”. Conversely, if you expect many transactions and do not care for higher deployment cost and output size, set “--optimize-runs” to a high number.
+
+```
+module.exports = {
+solidity: {
+version: "0.8.19",
+settings: {
+  optimizer: {
+    enabled: true,
+    runs: 1000,
+  },
+},
+},
+};
+```
+Kindly visit the following site for further information:
+
+https://docs.soliditylang.org/en/v0.5.4/using-the-compiler.html#using-the-commandline-compiler
+
+Here is one particular example of instance on opcode comparison that delineates the gas saving mechanism:
+
+```
+for !=0 before optimization
+PUSH1 0x00
+DUP2
+EQ
+ISZERO
+PUSH1 [cont offset]
+JUMPI
+
+after optimization
+DUP1
+PUSH1 [revert offset]
+JUMPI
+```
+Disclaimer: There have been several bugs with security implications related to optimizations. For this reason, Solidity compiler optimizations are disabled by default, and it is unclear how many contracts in the wild actually use them. Therefore, it is unclear how well they are being tested and exercised. High-severity security issues due to optimization bugs have occurred in the past. A high-severity bug in the emscripten -generated solc-js compiler used by Truffle and Remix persisted until late 2018. The fix for this bug was not reported in the Solidity CHANGELOG. Another high-severity optimization bug resulting in incorrect bit shift results was patched in Solidity 0.5.6. Please measure the gas savings from optimizations, and carefully weigh them against the possibility of an optimization-related bug. Also, monitor the development and adoption of Solidity compiler optimizations to assess their maturity.
