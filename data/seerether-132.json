@@ -1,0 +1,8 @@
+{
+  "contest": 271,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "integer underflow vulnerability in the _fractionalReward() function",
+  "issueId": 132,
+  "issueUrl": "https://github.com/code-423n4/2023-08-pooltogether-findings/issues/132"
+}
