@@ -2259,8 +2259,8 @@ The overall quality of the codebase for PoolTogether can be classified as "*Good
     - **Vault Boosters**: Allows to boost a vault winning chance by providing more liquidity to be exchanged for Pool Tokens.
     - **Liquidation Router:** End-users (liquidators) use this contract to swap vault shares or ERC20 tokens (like USDC) for POOL Tokens from the Vault or Vault Boosters. More sophisticated liquidators can directly call the Liquidation Pair.
     - **Liquidation Pair**: The call of Liquidation Router goes through a liquidation pair. It calculates how much amount should be swapped for the provided tokens. Vaults only accept call from their assigned liquidation pair to liquidate the tokens/shares.
-- **Deposit & Withdrawal Flow**
-    ![https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/1_qscfy0.jpg](https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/1_qscfy0.jpg)
+- **Deposit & Withdrawal Flow**<br>
+    *Note: See full details and chart in warden's [original submission](https://github.com/code-423n4/2023-08-pooltogether-findings/blob/main/data/3agle-Analysis.md#mechanism-review).*
     
     - You have `1000 USDC`. You deposit that into the Pooltogether’s USDC Prize Vault .
     - This vault sends the USDC amount to a yield vault (e.g. AAVE) and in-turn recieves yield vault’s shares. Then the prize vault will mint shares to the user.
@@ -2268,8 +2268,8 @@ The overall quality of the codebase for PoolTogether can be classified as "*Good
     - The withdrawal process is vice-versa.
     - So, multiple users deposit their USDC into the prize vault which is then deposited into yield vault. This vault recieves yield generated from the Yield Vault. This yield is auctioned off for POOL tokens which are deposited in Prize Pool to increase the vault’s chances of winning.
     - ***Note**: Minting and burning of shares of all vaults happen through a singleton contract - `TWABController`. It is omitted for simplicity.*
-- **Liquidation Flow**
-    ![https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/2_abf87b.jpg](https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/2_abf87b.jpg)
+- **Liquidation Flow**<br>
+    *Note: See full details and chart in warden's [original submission](https://github.com/code-423n4/2023-08-pooltogether-findings/blob/main/data/3agle-Analysis.md#mechanism-review).*
     
     - When a liquidator initiates the liquidation process, they call `swapExactAmountOut` on the LiquidationRouter. The router then transfers the POOL tokens from the liquidator and to the Prize Pool on behalf of the vault. The router also checks that the liquidation pair beinng called is deployed by the liquidation factory.
     - It then calls the `swapExactAmountOut` on Liquidation Pair associated with the vault. In the LiquidationPair, there are two tokens involved:
@@ -2280,8 +2280,8 @@ The overall quality of the codebase for PoolTogether can be classified as "*Good
         
     - The vault then calls `contributePrizeTokens` on the PrizePool to register the vault’s contribution. Then, it mints the vault shares to the liquidator.
     - ***Note**: The liquidation pair uses Continuous Gradual Dutch Auction system to sell the vault shares or ERC20 tokens (in case of Vault Boosters).*
-- **Vault Boosters**
-    ![https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/3_gblrty.jpg](https://res.cloudinary.com/duqxx6dlj/image/upload/v1691410971/Pooltogether/3_gblrty.jpg)
+- **Vault Boosters**<br>
+    *Note: See full details and chart in warden's [original submission](https://github.com/code-423n4/2023-08-pooltogether-findings/blob/main/data/3agle-Analysis.md#mechanism-review).*
     
     - A prize vault can increase its chances of winning by using a Vault Booster.
     - Here's how it works: When a vault is created, a corresponding Vault Booster is deployed and linked to the vault's address (set in the constructor). The owner of the Vault Booster sets up corresponding Liquidation Pair for all the supported tokens.
